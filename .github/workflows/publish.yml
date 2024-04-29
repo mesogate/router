@@ -1,0 +1,32 @@
+name: Publish
+
+on:
+  push:
+    tags: [ '*.*.*' ]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      # Checkout project code
+      - uses: actions/checkout@v3
+
+      # Set up python environment
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      # Get pypi credentials
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+      # Re-run validation and build
+      - name: Validate
+        run: ./scripts/validate.sh
+
+      # Run build script
+      - name: Publish
+        run: ./scripts/publish.sh
