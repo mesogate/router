@@ -19,14 +19,10 @@ jobs:
         with:
           python-version: '3.x'
 
-      # Get pypi credentials
-      - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-
       # Re-run validation and build
       - name: Validate
         run: ./scripts/validate.sh
 
-      # Run build script
-      - name: Publish
-        run: ./scripts/publish.sh
+      # Get pypi credentials and publish
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
